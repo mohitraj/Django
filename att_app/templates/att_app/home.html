@@ -1,0 +1,12 @@
+{% extends 'att_app/base.html' %}
+{% block content %}
+	{{ title }}
+{% for each in data  %}
+<div class="container p-3 my-3 bg-dark text-white">
+<h1> {{ each.name }} </h1>
+<p>
+ <p class="bg-secondary text-white">{{ each.roll_number }} ,<h3> {{ each.class }}</p></p>
+</div>
+<br>
+{% endfor %}
+{% endblock %}
