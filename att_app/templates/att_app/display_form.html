@@ -1,11 +1,12 @@
 {% extends 'att_app/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
 
 	<form action="" method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <input type="submit" value="Submit">
 </form>
 
