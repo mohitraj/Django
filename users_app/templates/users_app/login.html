@@ -1,0 +1,14 @@
+{% extends 'att_app/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+
+	<form action="" method="POST">
+    {% csrf_token %}
+    <fieldset> <legend class='border-bottom mb-4'>Login Now      </legend>    </fieldset>
+    {{ form|crispy }}
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}
