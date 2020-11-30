@@ -15,12 +15,18 @@
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
   <a class="navbar-brand" href="/">Home</a>
   <ul class="navbar-nav">
+          <a class="navbar-brand" href="{% url 'display-master'%}">Master Data</a>
+      <a class="navbar-brand" href="{% url 'att'%}">Mark Present</a>
     {% if user.is_authenticated %}
     <li class="nav-item">
       <a class="navbar-brand" href="{% url 'att-masterdata'%}">Add Data</a>
-      <a class="navbar-brand" href="{% url 'display-master'%}">Master Data</a>
-      <a class="navbar-brand" href="{% url 'att'%}">Mark Present</a>
+
       <a class="navbar-brand" href="{% url 'profile'%}">Profile</a>
+
+      <a class="navbar-brand" href="{% url 'check-att'%}">Att of student</a>    
+      
+      <a class="navbar-brand" href="{% url 'check-attAll'%}">Att ALL</a>
+
       <a class="navbar-brand" href="{% url 'Logout'%}">Logout</a>
       {% else %}
       <a class="navbar-brand" href="{% url 'Login'%}">Login</a>

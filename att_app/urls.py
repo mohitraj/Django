@@ -10,6 +10,8 @@ urlpatterns = [
     path('dismaster', views.display_master, name='display-master'),
     path('mark_att', views.mark_att, name='att'),
     path('disatt/<int:roll_number>', views.display_att, name='display-att'),
+    path('checkatt', views.CheckAtt, name='check-att'),
+    path('checkattall', views.CheckAttAll, name='check-attAll'),
 
 ]
 

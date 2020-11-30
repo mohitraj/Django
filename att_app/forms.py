@@ -18,3 +18,7 @@ class AttForm(forms.ModelForm):
 		model = Mark_Attendance2
 		fields = ['roll_number', 'class_name', 'subject']
 
+
+class CheckAttForm(forms.Form):
+    roll_number = forms.CharField(max_length=100)
+

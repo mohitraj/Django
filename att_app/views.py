@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse
-from .forms import ContactForm, MasterForm, AttForm
+from .forms import ContactForm, MasterForm, AttForm, CheckAttForm
 from .models import Masterdata5 as md, Mark_Attendance2 
+from django.contrib.auth.decorators import login_required
+
+from users_app.decorators import allowed_users
 
 from django.contrib import messages
 import time 
@@ -32,11 +35,13 @@ def form_test(request):
 	context = {'form':form }
 	return render (request,'att_app/display_form.html', context)
 
+
 def display_master(request):
 	data = md.objects.all()
 	context = {'data': data}
 	return render (request,'att_app/display_data.html', context)
 
+@login_required(login_url='Login')
 def master_data(request):
 	form = MasterForm()
 	context= {'form':form }
@@ -87,3 +92,28 @@ def mark_att(request):
 
 
 	return render (request,'att_app/display_form.html', context)
+
+##############################  Display things ##########################3
+
+@login_required(login_url='Login')
+@allowed_users(allowed_roles=['class10'] )
+def CheckAttAll(request):
+	context = { 'data' : Mark_Attendance2.objects.all()  }
+	return render(request, 'att_app/display_att.html', context)
+
+@login_required(login_url='Login')
+@allowed_users(allowed_roles=['class10', 'class5'] )
+def CheckAtt(request):
+	form = CheckAttForm()
+	context = {'form': form}
+	if request.method == 'POST':
+		form = CheckAttForm(request.POST)
+		if form.is_valid():
+			#print ("*******************",form.cleaned_data)
+			d1 = form.cleaned_data['roll_number']
+			data = Mark_Attendance2.objects.filter(roll_number=d1)
+			context = {'data' : data}
+			return render(request, 'att_app/display_att.html', context)
+
+
+	return render(request, 'att_app/display_form.html', context)
