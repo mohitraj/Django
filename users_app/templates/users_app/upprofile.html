@@ -7,7 +7,8 @@
 	<form action="" method="POST">
     {% csrf_token %}
     <fieldset> <legend class='border-bottom mb-4'>  {{ legend }}     </legend>    </fieldset>
-    {{ form|crispy }}
+    {{ u_form|crispy }}
+    {{ p_form|crispy }}
     <input type="submit" value="Submit">
 </form>
 

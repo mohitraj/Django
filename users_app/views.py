@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect 
 
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm  # from user login 2nd approach 
+from django.contrib.auth.forms import AuthenticationForm  # from user login 2nd approach 
 from django.contrib.auth import authenticate, logout, login #from user login 2nd approach 
 from django.contrib import messages
-
+from .forms import SignUP
+from django.contrib.auth.decorators import login_required
+from .forms import UserUpdateForm,ProfileUpdateForm
 
 
 # Create your views here.
@@ -33,7 +35,7 @@ def loginPage(request):
 				messages.info(request, 'Username or Password is incorrect:)')
 
 	form = AuthenticationForm()
-	context = {'form': form}
+	context = {'form': form, 'legend': 'Login Now'}
 	return render(request, 'users_app/login.html', context)
 
 def logoutUser(request):
@@ -43,13 +45,21 @@ def logoutUser(request):
 
 
 def register(request):
-	form = UserCreationForm()
-	context = {'form': form}
+	form = SignUP()
+	context = {'form': form, 'legend': "Register Now"}
 	if request.method  == 'POST':
-		form = UserCreationForm(request.POST)
+		form = SignUP(request.POST)
 		if form.is_valid():
 			form.save()
 			username = form.cleaned_data.get('username')
 			messages.success(request,f"Account created {username}")
 			return redirect('Login')
 	return render(request, 'users_app/login.html', context)
+
+
+def UpdateProfile(request):
+	u_form = UserUpdateForm(instance=request.user)
+	p_form = ProfileUpdateForm(instance=request.user.profile)
+
+	context = {'u_form' : u_form, 'p_form': p_form, 'legend': "Update Form"}
+	return render(request, 'users_app/upprofile.html', context)
