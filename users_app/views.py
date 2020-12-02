@@ -6,6 +6,8 @@ from django.contrib import messages
 from .forms import SignUP
 from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm,ProfileUpdateForm
+from .models import Profile
+from django.contrib.auth.models import User
 
 
 # Create your views here.
@@ -53,13 +55,31 @@ def register(request):
 			form.save()
 			username = form.cleaned_data.get('username')
 			messages.success(request,f"Account created {username}")
+			user = User.objects.filter(username=username).first()
+			Profile.objects.create(user=user)
+
 			return redirect('Login')
 	return render(request, 'users_app/login.html', context)
 
 
 def UpdateProfile(request):
+	if request.method  == 'POST':
+		u_form = UserUpdateForm(request.POST,instance=request.user)
+		p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+		if u_form.is_valid() and p_form.is_valid():
+			u_form.save()
+			p_form.save()
+			messages.success(request,f"Profile Updated")
+			return redirect('profile')
+
+
+
 	u_form = UserUpdateForm(instance=request.user)
 	p_form = ProfileUpdateForm(instance=request.user.profile)
 
 	context = {'u_form' : u_form, 'p_form': p_form, 'legend': "Update Form"}
 	return render(request, 'users_app/upprofile.html', context)
+
+
+def checkadmin(request):
+	return render(request, 'users_app/admin.html')

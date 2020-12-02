@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'att_app.apps.AttAppConfig',
     'users_app.apps.UsersAppConfig',
+    'blog.apps.BlogConfig',
     'crispy_forms'
 ]
 
@@ -145,3 +146,7 @@ LOGIN_REDIRECT_URL = 'profile'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 print (MEDIA_ROOT)
 MEDIA_URL = '/media/'
+
+STATIC_DIR =  os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = [STATIC_DIR]
