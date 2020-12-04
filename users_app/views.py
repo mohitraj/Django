@@ -56,7 +56,7 @@ def register(request):
 			username = form.cleaned_data.get('username')
 			messages.success(request,f"Account created {username}")
 			user = User.objects.filter(username=username).first()
-			Profile.objects.create(user=user)
+			#Profile.objects.create(user=user)
 
 			return redirect('Login')
 	return render(request, 'users_app/login.html', context)
@@ -73,12 +73,12 @@ def UpdateProfile(request):
 			return redirect('profile')
 
 
+	else :
+		u_form = UserUpdateForm(instance=request.user)
+		p_form = ProfileUpdateForm(instance=request.user.profile)
 
-	u_form = UserUpdateForm(instance=request.user)
-	p_form = ProfileUpdateForm(instance=request.user.profile)
-
-	context = {'u_form' : u_form, 'p_form': p_form, 'legend': "Update Form"}
-	return render(request, 'users_app/upprofile.html', context)
+		context = {'u_form' : u_form, 'p_form': p_form, 'legend': "Update Form"}
+		return render(request, 'users_app/upprofile.html', context)
 
 
 def checkadmin(request):

@@ -1,0 +1,24 @@
+{% extends 'att_app/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class= "content-section">
+<article class="media content-section">   
+<div class="media-body">
+<div class="article-metadata">
+	 <img src="{{ object.author.profile.image.url }}" class="rounded-circle" alt="UserProfilePic" width="100" height="100"> 
+
+<p> {{ object.author }}  on {{ object.date1|date:"d-F-Y" }} </h4>
+</p>
+
+<h2>{{ object.title }} </h2>
+ <p >{{ object.content}}</p>
+
+
+<br>
+ </article>
+</div>
+	</div>
+
+{% endblock %}
