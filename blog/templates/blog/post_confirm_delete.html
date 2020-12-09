@@ -1,0 +1,27 @@
+{% extends 'att_app/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class= "content-section">
+
+	<form action="" method="POST">
+    {% csrf_token %}
+
+<fieldset class='form-group'>     
+
+<legend class="border-bottom mb-4"> Delete Post    </legend>
+   <h2> Are you want to sure to delete "{{ object.title }}" </h2> 
+
+
+    </fieldset>
+   <fieldset class='form-group'>  
+    <button type="Submit" class="btn btn-danger">Yes Delete</button>
+
+
+
+ 	<a class="btn btn-primary" href="{%url 'post-sp' object.id %}" type="Submit" >Cancel</a></button>
+</fieldset>
+   
+</form>
+</div>
+{% endblock %}

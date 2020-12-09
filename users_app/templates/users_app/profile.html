@@ -4,6 +4,8 @@
 
 <div class="container p-3 my-3 bg-dark text-white">
 <h1> hello  {{ user.username }} </h1>
+<a href="{% url 'upprofile' %}"> Update Profile </a>
+
  <img src="{{ user.profile.image.url }}" class="rounded-circle" alt="UserProfilePic" width="200" height="200"> 
  <p>  {{ user.email }} </p>
   <p> {{ user.profile.age }} </p>

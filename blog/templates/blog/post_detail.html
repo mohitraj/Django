@@ -3,22 +3,30 @@
 
 {% block content %}
 
-<div class= "content-section">
-<article class="media content-section">   
-<div class="media-body">
-<div class="article-metadata">
-	 <img src="{{ object.author.profile.image.url }}" class="rounded-circle" alt="UserProfilePic" width="100" height="100"> 
-
-<p> {{ object.author }}  on {{ object.date1|date:"d-F-Y" }} </h4>
-</p>
-
-<h2>{{ object.title }} </h2>
- <p >{{ object.content}}</p>
 
 
-<br>
- </article>
+
+	<div class= "content-section">
+
+
+<div class="container mt-3">
+
+  <div class="media border p-3">
+    <img src="{{ object.author.profile.image.url }}" alt="{{ object.author }}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+    <div class="media-body">
+
+    	{% if object.author == user %}
+<a class="btn btn-primary" href="{%url 'post-update' object.id %}" type="Submit" >Update</a></button>
+<a class="btn btn-danger" href="{%url 'post-delete' object.id %}" type="Submit" >Delete</a></button>
+
+{% endif %}
+      <h4>{{ object.author }} <small><i>Posted on {{ object.date1|date:"d-F-Y" }}</i></small></h4>
+      <h2>{{ object.title }} </h2>
+      <p >{{ object.content}}</p>    
+    </div>
+  </div>
 </div>
-	</div>
+</div>
+
 
 {% endblock %}

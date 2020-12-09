@@ -117,3 +117,127 @@ def CheckAtt(request):
 
 
 	return render(request, 'att_app/display_form.html', context)
+
+
+############################################Code of REST #########################
+from .serializers import AttSerializer
+from rest_framework.renderers import JSONRenderer
+import io
+from rest_framework.parsers import JSONParser
+#from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly, DjangoModelPermissions, DjangoModelPermissionsOrAnonReadOnly
+
+
+def student_api1(request):
+	if request.method == 'GET':
+		data = md.objects.all() # Complext data type
+		serial = AttSerializer(data, many=True) # 
+		json_data = JSONRenderer().render(serial.data)
+		return HttpResponse(json_data, content_type='application/json')
+
+'''
+@csrf_exempt
+def student_api(request):
+	if request.method == 'GET':
+		json_data = request.body
+		print (json_data, "heloooooooooooooooooooo")
+		stream = io.BytesIO(json_data)
+		pythondata = JSONParser().parse(stream)
+		id = pythondata.get('id', None)
+		if id is not None:
+			print ("id", id)
+			stu = md.objects.get(id=id)
+			serializer = AttSerializer(stu)
+			json_data = JSONRenderer().render(serializer.data)
+			return HttpResponse(json_data, content_type='application/json')
+
+'''
+
+
+
+
+'''
+from rest_framework.generics import ListAPIView
+class StudentList(ListAPIView):
+    queryset = md.objects.all()
+    serializer_class = AttSerializer
+
+from rest_framework.generics import CreateAPIView
+class StudentCreate(CreateAPIView):
+    queryset = md.objects.all()
+    serializer_class = AttSerializer
+
+from rest_framework.generics import RetrieveAPIView
+class StudentRetrieve(RetrieveAPIView):
+    queryset = md.objects.all()
+    serializer_class = AttSerializer
+
+from rest_framework.generics import UpdateAPIView
+class StudentUpdate(UpdateAPIView):
+    queryset = md.objects.all()
+    serializer_class = AttSerializer
+
+from rest_framework.generics import DestroyAPIView
+class StudentDelete(DestroyAPIView):
+	queryset = md.objects.all()
+	serializer_class = AttSerializer
+'''
+
+###################Generics classes#############
+'''
+from rest_framework.generics import RetrieveUpdateDestroyAPIView
+class StudentRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
+	queryset = md.objects.all()
+	serializer_class = AttSerializer
+
+from rest_framework.generics import ListCreateAPIView
+class StudentListCreate(ListCreateAPIView):
+	queryset = md.objects.all()
+	serializer_class = AttSerializer
+'''
+
+from rest_framework import viewsets
+from .permissions import MohitPermission
+class StudentModelViewSet(viewsets.ModelViewSet):
+    queryset = md.objects.all()
+    serializer_class = AttSerializer
+    authentication=[SessionAuthentication] # Login style 
+    #permission_classes=[IsAdminUser]  # authorization or permissions after login
+    #permission_classes=[IsAuthenticatedOrReadOnly]
+    #permission_classes=[DjangoModelPermissions]
+    #permission_classes=[DjangoModelPermissionsOrAnonReadOnly]
+    permission_classes=[MohitPermission]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class StudentReadOnlyModelViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = md.objects.all()
+    serializer_class = AttSerializer
+
+
+
+
+
+
+
+
+
+
+
+

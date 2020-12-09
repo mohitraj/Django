@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'att_app.apps.AttAppConfig',
     'users_app.apps.UsersAppConfig',
     'blog.apps.BlogConfig',
-    'crispy_forms'
+    'crispy_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -78,25 +79,25 @@ WSGI_APPLICATION = 'myproject_att.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#    }
-#}
-import pymysql
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_letus',
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-pymysql.version_info = (1, 4, 2, "final", 0)
-pymysql.install_as_MySQLdb()
+#import pymysql
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'django_letus',
+#        'USER': 'root',
+#        'PASSWORD': '123456',
+#        'HOST': '127.0.0.1',
+#        'PORT': '3306',
+#    }
+#}
+#pymysql.version_info = (1, 4, 2, "final", 0)
+#pymysql.install_as_MySQLdb()
 
 
 
@@ -150,3 +151,10 @@ MEDIA_URL = '/media/'
 STATIC_DIR =  os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [STATIC_DIR]
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'greatextreme@gmail.com'
+EMAIL_HOST_PASSWORD= 'bqianodvvdxmurxb'

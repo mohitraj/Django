@@ -19,6 +19,14 @@ from django.contrib.auth import views as auth_views
 from users_app.views import  loginPage, logoutUser, register
 from django.conf.urls.static import static 
 from django.conf import settings
+from rest_framework.routers import DefaultRouter
+from att_app import views
+
+router = DefaultRouter()
+
+router.register('studentapi', views.StudentModelViewSet, basename='student123')
+router.register('studentread', views.StudentReadOnlyModelViewSet, basename='studentread')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,6 +38,17 @@ urlpatterns = [
     path('', register, name='register' ),
     path('users/',include('users_app.urls')),
     path('blog/', include('blog.urls')),
-    path('att/', include('att_app.urls') )
+    path('att/', include('att_app.urls') ),
+    path('api-auth/', include('rest_framework.urls')),
+    
+    path('password-reset/',auth_views.PasswordResetView.as_view(template_name='users_app/password_reset.html'), name='password_reset'),
+    path('password-reset/done',auth_views.PasswordResetDoneView.as_view(template_name='users_app/password_reset_done.html'), name='password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>',auth_views.PasswordResetConfirmView.as_view(template_name='users_app/password_reset_confirm.html'), name='password_reset_confirm'),
+	path('password_reset_complete/', 
+    	auth_views.PasswordResetCompleteView.as_view(template_name='users_app/password_reset_complete.html'), 
+    	name='password_reset_complete'),
+    #path('password_reset_confirm/', auth_views.PasswordResetDoneView.as_view(template_name='users_app/password_reset_done.html'), name='password_reset_done' ),
+    path('', include(router.urls)),
+
 ]
 urlpatterns = urlpatterns+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
