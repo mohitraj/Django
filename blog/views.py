@@ -1,14 +1,16 @@
 from django.shortcuts import render,get_object_or_404
 from django.views.generic import CreateView, DetailView, ListView,UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post
+from .models import Post, Comment
 from django.contrib.auth.models import User
+from django.views import View
 
 # Create your views here.
 
 class PostCreateView(LoginRequiredMixin,CreateView):
 	model = Post    # Model name 
 	fields = ['title', 'content'] 
+	login_url = '/login/'
 	#template_name = blog/post_form.html  # custom name
 	def form_valid(self,form):
 		form.instance.author = self.request.user
@@ -62,3 +64,27 @@ class UserPostListView(LoginRequiredMixin, ListView):
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))
 		return Post.objects.filter(author=user).order_by("-date1")
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+	model = Comment
+	login_url = '/login/'
+	fields = ['content']
+	template_name = 'blog/comment_form.html'
+
+	def form_valid(self,form):
+		print ("kwargs", self.kwargs)
+		form.instance.author = self.request.user
+
+		form.instance.post  = Post.objects.filter(id=self.kwargs.get('pk')).first()
+		print ("form*******",form, dir(form))
+		return super().form_valid(form)
+
+class PostCommentView(View):
+    def get(self, request, *args, **kwargs):
+         view = PostDetailView.as_view()
+         return view(request, *args, **kwargs) 
+
+    def post(self, request, *args, **kwargs) :
+         view = CommentCreateView.as_view()
+         return view(request, *args, **kwargs) 

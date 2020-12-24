@@ -125,7 +125,7 @@ from rest_framework.renderers import JSONRenderer
 import io
 from rest_framework.parsers import JSONParser
 #from django.views.decorators.csrf import csrf_exempt
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly, DjangoModelPermissions, DjangoModelPermissionsOrAnonReadOnly
 
 
@@ -202,12 +202,14 @@ from .permissions import MohitPermission
 class StudentModelViewSet(viewsets.ModelViewSet):
     queryset = md.objects.all()
     serializer_class = AttSerializer
-    authentication=[SessionAuthentication] # Login style 
+    #authentication=[SessionAuthentication] # Login style 
     #permission_classes=[IsAdminUser]  # authorization or permissions after login
     #permission_classes=[IsAuthenticatedOrReadOnly]
     #permission_classes=[DjangoModelPermissions]
     #permission_classes=[DjangoModelPermissionsOrAnonReadOnly]
-    permission_classes=[MohitPermission]
+    #permission_classes=[MohitPermission]
+    authentication_classes=[TokenAuthentication]
+    permission_classes=[IsAuthenticated]
 
 
 

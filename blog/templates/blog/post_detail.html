@@ -2,31 +2,51 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
-
-
-
 	<div class= "content-section">
-
-
 <div class="container mt-3">
-
   <div class="media border p-3">
     <img src="{{ object.author.profile.image.url }}" alt="{{ object.author }}" class="mr-3 mt-3 rounded-circle" style="width:60px;">
     <div class="media-body">
-
     	{% if object.author == user %}
 <a class="btn btn-primary" href="{%url 'post-update' object.id %}" type="Submit" >Update</a></button>
 <a class="btn btn-danger" href="{%url 'post-delete' object.id %}" type="Submit" >Delete</a></button>
-
 {% endif %}
       <h4>{{ object.author }} <small><i>Posted on {{ object.date1|date:"d-F-Y" }}</i></small></h4>
       <h2>{{ object.title }} </h2>
       <p >{{ object.content}}</p>    
+
+ <div class="container">
+  {% for comment in post.comments.all %}
+  <br>
+<img src="{{ comment.author.profile.image.url }}" alt="{{ comment.author }}" class="mr-3 mt-3 rounded-circle" style="width:60px;"> 
+{{ comment.created_date }}
+             <p>{{ comment.content }}</p>
+          <p>Posted by: <strong>{{ comment.author }}</strong></p>
+  {% empty %}
+      <p>No comments posted.</p>
+  {% endfor %}
+</div>
+
+
+<div class="content-section">
+  <form method= "POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">Comment</legend>
+
+      {{ form|crispy }}
+    </fieldset>
+    <div class="form-group">
+      <button class="btn btn-outline-info" type="submit"> Post </button>
+</div>
+  </form>
+
+</div>
+
+
+
     </div>
   </div>
 </div>
 </div>
-
-
 {% endblock %}
