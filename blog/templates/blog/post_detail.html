@@ -18,10 +18,25 @@
  <div class="container">
   {% for comment in post.comments.all %}
   <br>
+
+
+<br>
+      {% if user == comment.post.author or comment.approved_comment %}
 <img src="{{ comment.author.profile.image.url }}" alt="{{ comment.author }}" class="mr-3 mt-3 rounded-circle" style="width:60px;"> 
+              {{ comment.created_date }}
+              {% if not comment.approved_comment %}
+              <a class="btn btn-primary" href="{% url 'comment_approve' pk=comment.pk %}" type="Submit" >Approve</a></button>
+                <a class="btn btn-primary" href="{% url 'comment_remove' pk=comment.pk %}" type="Submit">Remove</a></button>
+              {% endif %}
+
+
+
+
 {{ comment.created_date }}
              <p>{{ comment.content }}</p>
           <p>Posted by: <strong>{{ comment.author }}</strong></p>
+
+           {% endif %}
   {% empty %}
       <p>No comments posted.</p>
   {% endfor %}
